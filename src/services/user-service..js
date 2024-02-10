@@ -22,12 +22,16 @@ class UserService{
 
     async signIn(email,plainPassword){
         try {
+            //step-1:fetch the user using email
             const user= await this.userRepository.getByEmail(email);
+
+            //step-2:compare incoming plain password with stored encrypted password
             const passwordsMatch=this.checkPassword(plainPassword,user.password);
             if(!passwordsMatch){
                 console.log('password doesnt match' );
                 throw {error:'Incorrect Password'};
             }
+            //step-3:if passwords matches create a token and send it to the user
             const newJWT=this.createToken({email:user.email,id:user.id});
             return newJWT;
             
@@ -60,6 +64,22 @@ class UserService{
     checkPassword(userInputPlainPassword,encryptedPassword){
         try {
             return bcrypt.compareSync(userInputPlainPassword,encryptedPassword);
+        } catch (error) {
+            console.log('something went wrong in password comparison');
+            throw error;
+        }
+    }
+    async isAuthenticated(token){
+        try {
+            const response=await this.verifyToken(token);
+            if(!response){
+                throw {error:'Invalid Token'}
+            }
+            const user=await this.userRepository.getById(response.id);
+            if(!user){
+                throw {error:'No user with the corresponding token exists'}
+            }
+            return user.id;
         } catch (error) {
             console.log('something went wrong in password comparison');
             throw error;
