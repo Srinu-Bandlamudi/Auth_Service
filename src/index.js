@@ -8,6 +8,8 @@ const app=express();
 
 const apiRoutes=require('./routes/index');
 
+//const db=require('./models/index');
+
 const StartServer=()=>{
 
     app.use(bodyParser.json());
@@ -21,7 +23,9 @@ const StartServer=()=>{
         //  const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNyaW51NTVAZ21haWwuY29tIiwiaWQiOjEsImlhdCI6MTcwNzU0NzY5MSwiZXhwIjoxNzA3NTQ3NjkxfQ.1bh0bTusxUQDZX5rO7KooKsoI3CRV8JGIIYH8-6MuAI';
         // const response=service.verifyToken(token);
         // console.log(response);
-
+        // if(process.env.DB_SYNC){
+        //     db.sequelize.sync({alter:true});
+        // }
     });
 }
 StartServer();
