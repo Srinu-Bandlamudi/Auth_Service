@@ -4,7 +4,7 @@ const jwt=require('jsonwebtoken');
 const bcrypt=require('bcrypt');
 
 const { JWT_KEY }=require('../config/serverConfig');
-const AppErrors = require('../utils/error-handler');
+//const AppErrors = require('../utils/error-handler');
 
 class UserService{
     constructor(){
